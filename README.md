@@ -4,6 +4,16 @@
 [`Airbnk BLE`](https://github.com/Moballo-LLC/airbnk-ble) Home Assistant
 integration.
 
+## Disclaimer
+
+`pyairbnk` is an unofficial community-maintained library. It is not made by,
+sponsored by, endorsed by, or otherwise affiliated with Airbnk, WeHere, or
+their vendors in any way.
+
+Use this library at your own discretion and risk. You are responsible for how
+you use it, where you deploy it, and what devices, accounts, or systems you
+connect it to.
+
 It provides:
 
 - Airbnk / WeHere cloud onboarding helpers for verification codes, auth, lock
