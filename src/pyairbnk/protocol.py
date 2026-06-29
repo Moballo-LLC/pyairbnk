@@ -535,5 +535,5 @@ def _generate_signature_v2(key: bytes, value: int, payload: bytes) -> bytes:
     return _generate_password_v2(hashlib.sha1(outer).digest())
 
 
-def _checksum(buffer: bytes, start: int, end: int) -> int:
+def _checksum(buffer: bytes | bytearray, start: int, end: int) -> int:
     return sum(buffer[start:end]) & 0xFF
