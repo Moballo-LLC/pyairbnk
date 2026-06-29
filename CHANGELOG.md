@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.0
 
 - Added provisional `M521` model support and a generic fallback profile for
   newly observed Airbnk lock models
