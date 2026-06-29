@@ -61,6 +61,13 @@ MODEL_PROFILES: tuple[ModelProfile, ...] = (
         supports_remote_lock=False,
         validated=False,
     ),
+    ModelProfile(
+        key="m532",
+        models=("M532",),
+        default_battery_profile=_M_SERIES_BATTERY_PROFILE,
+        supports_remote_lock=True,
+        validated=True,
+    ),
 )
 
 MODEL_PROFILE_BY_KEY = {profile.key: profile for profile in MODEL_PROFILES}
