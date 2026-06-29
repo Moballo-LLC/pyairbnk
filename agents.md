@@ -16,7 +16,7 @@
 
 ## Hardware Support
 
-- `B100` is the only live-validated model today.
+- `B100` and `M532` are the live-validated models today.
 - Other declared model profiles should be described as logic-tested rather than
   equally field-tested.
 
@@ -34,5 +34,10 @@
 - Keep CI, typing, and packaging green.
 - Keep release automation ready for PyPI Trusted Publishing, but never hard-code
   secrets into workflows or config files.
+- Release prep must update `[project].version` in `pyproject.toml`,
+  `src/pyairbnk/__init__.py`'s `__version__`, and add a matching
+  `CHANGELOG.md` section headed `## X.Y.Z`.
+- Publish releases from merged `main` commits by pushing `vX.Y.Z` tags that
+  match the package version. The release workflow uses the matching changelog
+  section as the GitHub release body.
 - Prefer small commits when it helps keep the extraction reviewable.
-
