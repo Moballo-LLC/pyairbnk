@@ -2,7 +2,11 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -76,4 +80,3 @@ jobs:
           pip install build
       - name: Build distributions
         run: python -m build
-

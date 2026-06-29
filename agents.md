@@ -31,7 +31,11 @@
 
 ## Repo Workflow
 
+- Use pull requests for repository changes; do not commit directly to `main`
+  except for emergency repository-owner intervention.
 - Keep CI, typing, and packaging green.
+- CI and secret-scan workflows should run for pull requests targeting `main`
+  and direct commits to `main`, not for arbitrary branch pushes.
 - Keep release automation ready for PyPI Trusted Publishing, but never hard-code
   secrets into workflows or config files.
 - Keep Dependabot enabled for Python and GitHub Actions with grouped
