@@ -28,7 +28,7 @@ from .models import (
     BootstrapData,
     StatusResponseData,
 )
-from .profiles import SUPPORTED_MODELS, get_model_profile
+from .profiles import get_model_profile
 
 
 class _AESCipher:
@@ -272,10 +272,8 @@ def decrypt_bootstrap(lock_sn: str, new_sninfo: str, app_key: str) -> BootstrapD
     try:
         profile = get_model_profile(lock_model)
     except KeyError as err:
-        supported = ", ".join(sorted(SUPPORTED_MODELS))
         raise AirbnkProtocolError(
-            f"Unsupported Airbnk lock model '{lock_model}'. "
-            f"Supported models: {supported}"
+            "Airbnk bootstrap data did not include a lock model"
         ) from err
 
     digest = hashlib.sha1(f"{decrypted_lock_sn}{app_key}".encode()).hexdigest()

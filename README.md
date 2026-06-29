@@ -26,9 +26,11 @@ It provides:
 ## Support Status
 
 `B100` and `M532` have been live-validated on real hardware so far. The
-protocol/profile surface also includes `M300`, `M500`, `M510`, `M530`, and
-`M531`, but those are currently covered through shared logic and sanitized
-fixtures rather than equivalent field testing.
+protocol/profile surface also includes `M300`, `M500`, `M510`, `M521`, `M530`,
+and `M531`, but those are currently covered through shared logic and sanitized
+fixtures rather than equivalent field testing. Other non-empty Airbnk lock model
+names fall back to a generic provisional profile so newly observed locks can be
+tested without being described as live-validated.
 
 ## Installation
 
