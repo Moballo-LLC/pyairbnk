@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- Added a live-validated `M532` model profile with remote-lock support
+- Restored CI type checking for the mutable BLE operation checksum buffer
+- Updated release automation to publish the matching `CHANGELOG.md` section as
+  the GitHub release body
+- Added release guidance and version consistency checks for future release prep
+
 ## 1.0.1
 
 - Published the first PyPI-backed release using GitHub Actions Trusted

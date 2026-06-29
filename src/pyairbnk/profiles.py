@@ -81,4 +81,3 @@ def get_model_profile(lock_model: str) -> ModelProfile:
     """Return the profile for a lock model or raise KeyError."""
 
     return MODEL_PROFILE_BY_MODEL[lock_model]
-

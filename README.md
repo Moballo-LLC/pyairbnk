@@ -25,10 +25,10 @@ It provides:
 
 ## Support Status
 
-`B100` is the only model that has been live-validated end to end on real
-hardware so far. The protocol/profile surface also includes `M300`, `M500`,
-`M510`, `M530`, and `M531`, but those are currently covered through shared
-logic and sanitized fixtures rather than equivalent field testing.
+`B100` and `M532` have been live-validated on real hardware so far. The
+protocol/profile surface also includes `M300`, `M500`, `M510`, `M530`, and
+`M531`, but those are currently covered through shared logic and sanitized
+fixtures rather than equivalent field testing.
 
 ## Installation
 
@@ -56,16 +56,24 @@ pip install -e ".[test]"
 The repository includes a GitHub Actions release workflow that:
 
 1. builds the sdist and wheel
-2. creates a GitHub release on `v*` tags
+2. creates a GitHub release on `v*` tags using the matching `CHANGELOG.md`
+   section as the release body
 3. publishes to PyPI using Trusted Publishing
 
-One manual setup step is still required on PyPI: add
-`Moballo-LLC/pyairbnk` as a Trusted Publisher for the
-`.github/workflows/release.yml` workflow. PyPI documents that setup here:
-[Adding a Trusted Publisher](https://docs.pypi.org/trusted-publishers/adding-a-publisher/).
+To publish a release, merge a PR that updates `pyproject.toml`,
+`src/pyairbnk/__init__.py`, and `CHANGELOG.md`, then tag the merged `main`
+commit:
 
-After that PyPI-side setup is complete, enable the repository variable
-`PYPI_PUBLISH_ENABLED=true` so tagged releases also publish to PyPI.
+```bash
+git switch main
+git pull --ff-only
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+The workflow validates that the tag matches the package version. For example,
+`v1.1.0` must match `[project].version = "1.1.0"`, and `CHANGELOG.md` must
+contain a `## 1.1.0` section.
 
 ## Credits
 
