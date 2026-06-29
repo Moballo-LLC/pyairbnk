@@ -34,6 +34,8 @@
 - Keep CI, typing, and packaging green.
 - Keep release automation ready for PyPI Trusted Publishing, but never hard-code
   secrets into workflows or config files.
+- Keep Dependabot enabled for Python and GitHub Actions with grouped
+  minor/patch updates and cooldowns; do not hide major updates globally.
 - Release prep must update `[project].version` in `pyproject.toml`,
   `src/pyairbnk/__init__.py`'s `__version__`, and add a matching
   `CHANGELOG.md` section headed `## X.Y.Z`.
