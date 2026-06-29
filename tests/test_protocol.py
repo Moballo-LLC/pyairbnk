@@ -63,8 +63,41 @@ def test_bootstrap_can_be_decrypted() -> None:
 
     assert bootstrap.lock_sn == fixture["lock_sn"]
     assert bootstrap.lock_model == fixture["lock_model"]
+    assert bootstrap.profile == "b100"
     assert bootstrap.manufacturer_key == fixture["manufacturer_key"]
     assert bootstrap.binding_key == fixture["binding_key"]
+
+
+def test_decrypt_bootstrap_accepts_provisional_m521_profile() -> None:
+    """M521 bootstrap data should resolve to its provisional profile."""
+
+    fixture = build_bootstrap_fixture(lock_model="M521")
+
+    bootstrap = decrypt_bootstrap(
+        fixture["lock_sn"],
+        fixture["new_sninfo"],
+        fixture["app_key"],
+    )
+
+    assert bootstrap.lock_model == "M521"
+    assert bootstrap.profile == "m521"
+
+
+def test_decrypt_bootstrap_accepts_unknown_airbnk_lock_profile() -> None:
+    """Unknown non-empty model names should use the generic profile."""
+
+    fixture = build_bootstrap_fixture(lock_model="Z999")
+
+    bootstrap = decrypt_bootstrap(
+        fixture["lock_sn"],
+        fixture["new_sninfo"],
+        fixture["app_key"],
+    )
+    operation = generate_operation_code(1, 42, bootstrap, timestamp=1_700_000_000)
+
+    assert bootstrap.lock_model == "Z999"
+    assert bootstrap.profile == "unknown_airbnk_lock"
+    assert len(operation) == 36
 
 
 def test_operation_code_generation_is_stable() -> None:
@@ -131,10 +164,10 @@ def test_extract_manufacturer_payload_accepts_vendor_and_prefixed_records() -> N
     assert extract_manufacturer_payload({0x004C: payload}) == payload
 
 
-def test_decrypt_bootstrap_rejects_unknown_models() -> None:
-    """Unsupported lock models should fail closed."""
+def test_decrypt_bootstrap_rejects_missing_models() -> None:
+    """Malformed bootstrap data without a model should fail closed."""
 
-    fixture = build_bootstrap_fixture(lock_model="Z999")
+    fixture = build_bootstrap_fixture(lock_model="")
 
     try:
         decrypt_bootstrap(
@@ -143,7 +176,6 @@ def test_decrypt_bootstrap_rejects_unknown_models() -> None:
             fixture["app_key"],
         )
     except AirbnkProtocolError as err:
-        assert "Unsupported Airbnk lock model" in str(err)
+        assert "did not include a lock model" in str(err)
     else:
-        raise AssertionError("unsupported model should raise")
-
+        raise AssertionError("missing model should raise")

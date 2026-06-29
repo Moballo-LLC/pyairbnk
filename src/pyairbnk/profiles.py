@@ -18,6 +18,14 @@ _M_SERIES_BATTERY_PROFILE = (
     BatteryBreakpoint(6.20, 100.0),
 )
 
+_UNKNOWN_AIRBNK_LOCK_PROFILE = ModelProfile(
+    key="unknown_airbnk_lock",
+    models=(),
+    default_battery_profile=_M_SERIES_BATTERY_PROFILE,
+    supports_remote_lock=False,
+    validated=False,
+)
+
 MODEL_PROFILES: tuple[ModelProfile, ...] = (
     ModelProfile(
         key="b100",
@@ -48,6 +56,13 @@ MODEL_PROFILES: tuple[ModelProfile, ...] = (
         validated=False,
     ),
     ModelProfile(
+        key="m521",
+        models=("M521",),
+        default_battery_profile=_M_SERIES_BATTERY_PROFILE,
+        supports_remote_lock=False,
+        validated=False,
+    ),
+    ModelProfile(
         key="m530",
         models=("M530",),
         default_battery_profile=_M_SERIES_BATTERY_PROFILE,
@@ -68,6 +83,7 @@ MODEL_PROFILES: tuple[ModelProfile, ...] = (
         supports_remote_lock=True,
         validated=True,
     ),
+    _UNKNOWN_AIRBNK_LOCK_PROFILE,
 )
 
 MODEL_PROFILE_BY_KEY = {profile.key: profile for profile in MODEL_PROFILES}
@@ -78,6 +94,13 @@ SUPPORTED_MODELS = frozenset(MODEL_PROFILE_BY_MODEL)
 
 
 def get_model_profile(lock_model: str) -> ModelProfile:
-    """Return the profile for a lock model or raise KeyError."""
+    """Return the profile for a lock model.
 
-    return MODEL_PROFILE_BY_MODEL[lock_model]
+    Unknown non-empty Airbnk model names use a generic provisional profile so
+    newly observed locks can be exercised without claiming hardware validation.
+    """
+
+    normalized_model = lock_model.strip().upper()
+    if not normalized_model:
+        raise KeyError(lock_model)
+    return MODEL_PROFILE_BY_MODEL.get(normalized_model, _UNKNOWN_AIRBNK_LOCK_PROFILE)

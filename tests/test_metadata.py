@@ -5,7 +5,12 @@ from __future__ import annotations
 import tomllib
 from pathlib import Path
 
-from pyairbnk import MODEL_PROFILE_BY_KEY, MODEL_PROFILES, __version__
+from pyairbnk import (
+    MODEL_PROFILE_BY_KEY,
+    MODEL_PROFILES,
+    SUPPORTED_MODELS,
+    __version__,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
@@ -26,8 +31,12 @@ def test_only_live_validated_profiles_are_marked_validated() -> None:
     live_validated_keys = {"b100", "m532"}
 
     assert MODEL_PROFILE_BY_KEY["b100"].validated is True
+    assert MODEL_PROFILE_BY_KEY["m521"].validated is False
     assert MODEL_PROFILE_BY_KEY["m532"].supports_remote_lock is True
     assert MODEL_PROFILE_BY_KEY["m532"].validated is True
+    assert MODEL_PROFILE_BY_KEY["unknown_airbnk_lock"].models == ()
+    assert "M521" in SUPPORTED_MODELS
+    assert "unknown_airbnk_lock" not in SUPPORTED_MODELS
 
     for profile in MODEL_PROFILES:
         if profile.key not in live_validated_keys:
