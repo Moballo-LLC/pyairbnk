@@ -94,7 +94,7 @@ jobs:
           name: dist
           path: dist
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v3
+        uses: softprops/action-gh-release@v3.0.1
         with:
           body_path: release-notes.md
           files: dist/*
